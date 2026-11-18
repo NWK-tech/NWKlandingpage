@@ -1,0 +1,85 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+@layer base {
+  html {
+    background-color: var(--nwk-bg-primary);
+    color: var(--nwk-text-primary);
+    font-family: var(--font-sans);
+    caret-color: var(--nwk-carbon-black);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--nwk-bg-primary);
+    color: var(--nwk-text-primary);
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: var(--nwk-carbon-black);
+    color: var(--nwk-soft-white);
+  }
+
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.text-display {
+  font-family: var(--font-display);
+  font-size: var(--nwk-text-display);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.text-h1 {
+  font-family: var(--font-display);
+  font-size: var(--nwk-text-h1);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: var(--nwk-text-h2);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.text-h3 {
+  font-family: var(--font-display);
+  font-size: var(--nwk-text-h3);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* Hover movement gated for fine-pointer devices */
+@media (hover: hover) and (pointer: fine) {
+  .hover-lift {
+    transition: transform 240ms var(--nwk-ease-precision);
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
