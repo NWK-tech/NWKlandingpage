@@ -39,6 +39,23 @@ export const manifestoAboutContent = {
   ],
 } as const;
 
+/**
+ * Infraestrutura de vídeo das Soluções. Enquanto os clipes definitivos não existirem
+ * em /public/videos/solutions, as imagens estáticas continuam como fallback.
+ * Ao adicionar os arquivos descritos em public/videos/solutions/README.md, altere
+ * para `true`.
+ */
+const SOLUTION_VIDEOS_READY = false;
+
+const chapterVideo = (slug: string): StickyContentItem["video"] =>
+  SOLUTION_VIDEOS_READY
+    ? {
+        src: `/videos/solutions/${slug}.mp4`,
+        webm: `/videos/solutions/${slug}.webm`,
+        poster: `/videos/solutions/${slug}.jpg`,
+      }
+    : undefined;
+
 export const solutionsStickyChapters: StickyContentItem[] = [
   {
     heading: "Sistemas personalizados e plataformas SaaS",
@@ -51,6 +68,7 @@ export const solutionsStickyChapters: StickyContentItem[] = [
     ],
     link: { href: "#contato", text: "Iniciar projeto de software" },
     image: "/images/propostas/service-software-display.jpg",
+    video: chapterVideo("sistemas"),
     imageAlt:
       "Monitor widescreen de estúdio exibindo camadas translúcidas de arquitetura de software e painéis de sistema",
   },
@@ -65,6 +83,7 @@ export const solutionsStickyChapters: StickyContentItem[] = [
     ],
     link: { href: "#contato", text: "Explorar soluções em IA" },
     image: "/images/propostas/service-ai-interface.jpg",
+    video: chapterVideo("ia"),
     imageAlt:
       "Notebook e tablet em ambiente escuro com fluxos de trabalho de inteligência artificial e nós de automação flutuando acima das telas",
   },
@@ -79,6 +98,7 @@ export const solutionsStickyChapters: StickyContentItem[] = [
     ],
     link: { href: "#projetos", text: "Ver projetos e conceitos" },
     image: "/images/propostas/service-mobile-handheld.jpg",
+    video: chapterVideo("mobile"),
     imageAlt:
       "Smartphone em carbono fosco com três camadas translúcidas de interface mobile e anéis de gesto flutuando sobre a tela",
   },
@@ -93,6 +113,7 @@ export const solutionsStickyChapters: StickyContentItem[] = [
     ],
     link: { href: "#contato", text: "Falar sobre sua operação" },
     image: "/images/propostas/service-ai-network.jpg",
+    video: chapterVideo("web-automacao"),
     imageAlt:
       "Condutos ópticos e blocos modulares em vidro escuro representando integração de dados e automação de processos",
   },

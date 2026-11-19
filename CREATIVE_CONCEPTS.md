@@ -1,3 +1,5 @@
+> **REGISTRO HISTÓRICO (2026-11-18)** — descreve uma versão anterior da aplicação e decisões já superadas (ex.: *Architectural Monolith*, NWK Culture como referência). Não é fonte de verdade sobre o código atual; ver `docs/CURRENT_STATE.md` e `docs/CREATIVE_DIRECTION.md`.
+
 # CREATIVE_CONCEPTS.md — 3 Propostas de Direção Artística para a NWK
 
 > Todas as propostas preservam a identidade tecnológica da NWK (não moda, não agência, não freelancer), o logotipo aprovado, preto (`#131315`) e creme (`#F2F0EB`) com equilíbrio sem amarelar, e rompem completamente com o esqueleto da WeTechHub.

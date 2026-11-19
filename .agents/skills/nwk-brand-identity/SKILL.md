@@ -21,6 +21,7 @@ Consulte sempre `docs/BRAND_BOOK.md` e `AGENTS.md`.
 
 - Carbon Black `#131315` | Graphite `#232429` | Pure White `#FFFFFF` | Soft White `#FAFAF8` | Neutral Cream `#F2F0EB` | Silver Gray `#D9DBDE` | Steel Gray `#6B7078`.
 - Privilegiar branco, off-white, preto e grafite; usar creme estrategicamente sem amarelar o visual.
+- Exceções aprovadas: glow colorido do CTA da hero; cores próprias de cada projeto (permitidas). Cores complementares só com justificativa.
 - Proibido: bronze/dourado obrigatório, gradientes roxos, neon indiscriminado, estética de jornal/gibi/vintage/moda.
 
 ## Pendências de Aprovação

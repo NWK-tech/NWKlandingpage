@@ -10,16 +10,22 @@ description: >-
 
 ## Conceito Central
 
-**Premium Technology — Precision, Creativity & Engineering.**
+**Premium Technology — Precisão, criatividade e engenharia.** (O conceito *Architectural Monolith* não é mais obrigatório.)
+
+## Hero aprovada
+
+Intocável (canvas de meio-tom + mãos, tipografia, layout, CTA com glow colorido). Veja `docs/CREATIVE_DIRECTION.md` e `Claude outputs/evidence/HERO_BASELINE.md`.
 
 ## Referências Autorizadas
 
-1. **Origin Brand Studio** (`https://originbrandstudio.framer.website/`): personalidade, direção artística, contraste tonal tipográfico e composição autoral.
-2. **Apple** (`https://www.apple.com/br/`): precisão visual, minimalismo, espaços negativos, scroll storytelling e apresentação imersiva de produtos/dispositivos.
-3. **NWK Culture** (`https://www.nwkculture.com.br/`): **exclusivamente** referência cromática de preto, creme e neutros.
+1. Origin Brand Studio (`https://originbrandstudio.framer.website/`)
+2. Apple Brasil (`https://www.apple.com/br/`)
+3. MotionSites (`https://motionsites.ai/`) — exemplos visuais, composição, demonstrações
+4. Exploração livre: reactbits.dev, metalforge.xyz, codrops, gsap.com, motion.dev, awwwards, land-book, Webflow showcase, Framer marketplace, codepen, aceternity, magicui.
 
-## Restrição Explícita
+## Restrições Explícitas
 
-- **Proibido** utilizar a WeTechHub como referência visual, estrutural, textual ou de animações.
-- Evitar a sequência previsível de "template de software house" (cards simétricos repetidos e wireframes genéricos).
-- Cada seção deve possuir composição própria, ritmo claro/escuro intencional e apresentação cinematográfica dos projetos (`FJU Artes Marciais`, `Doce Certo`, `NWKBossAI`, `ZURI`, `NWKstudio`).
+- **Proibido** usar WeTechHub como referência. **NWK Culture não é mais referência autorizada.**
+- Preto e creme são a identidade principal; cores complementares justificadas e cores individuais de cada projeto são permitidas (glow da hero é exceção aprovada).
+- Evitar: imagens abstratas sem sentido comercial, esculturas que parecem móveis, objetos industriais aleatórios, grids decorativos, cards em excesso, numeração decorativa, layouts repetidos entre seções.
+- Não reproduzir layouts de terceiros integralmente; não inventar métricas/clientes; rotular interfaces conceituais.

@@ -1,3 +1,5 @@
+> **REGISTRO HISTÓRICO (2026-11-18)** — descreve uma versão anterior da aplicação e decisões já superadas (ex.: *Architectural Monolith*, NWK Culture como referência). Não é fonte de verdade sobre o código atual; ver `docs/CURRENT_STATE.md` e `docs/CREATIVE_DIRECTION.md`.
+
 # REDESIGN_PLAN.md — Decisão Técnica e Recomendação
 
 ## 1. Recomendação Fundamentada

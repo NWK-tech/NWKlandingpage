@@ -1,16 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { ArrowUpRight } from "lucide-react";
 import { solutionsContent, solutionsStickyChapters } from "@/content/home";
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Container";
 import StickyContentWrapper from "@/components/ui/sticky-content-wrapper";
 
+/**
+ * Soluções: (1) narrativa sticky com wipe vertical por serviço; (2) índice
+ * tipográfico das seis disciplinas, uma aberta por vez, que responde
+ * "o que construímos / que problema resolve / o que entregamos".
+ */
 export function SolutionsSection() {
-  const [selectedId, setSelectedId] = useState<string>(solutionsContent.items[0]?.id ?? "");
-  const activeItem =
-    solutionsContent.items.find((item) => item.id === selectedId) ?? solutionsContent.items[0]!;
+  const [openId, setOpenId] = useState<string>(solutionsContent.items[0]?.id ?? "");
 
   return (
     <section
@@ -22,84 +25,109 @@ export function SolutionsSection() {
         {solutionsContent.heading} {solutionsContent.headingMuted}
       </h2>
 
-      {/* 1. Sticky Content & Vertical Image Wipe Showcase */}
       <StickyContentWrapper items={solutionsStickyChapters} />
 
-      {/* 2. Interactive Complete Discipline Index (All 6 NWK Capabilities) */}
-      <div className="border-t border-[var(--nwk-border-dark-subtle)] bg-[var(--nwk-bg-dark-elevated)] py-16 sm:py-20">
-        <Container>
-          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-            <h3 className="font-display max-w-2xl text-2xl font-medium tracking-tight text-[var(--nwk-soft-white)] sm:text-3xl">
-              Explore todas as disciplinas de engenharia da NWK.
-            </h3>
-            <div className="flex flex-wrap gap-2">
+      <div className="border-t border-[var(--nwk-border-dark-subtle)] py-20 sm:py-28">
+        <Container size="wide">
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-4">
+              <p className="font-display text-[clamp(1.6rem,2.6vw,2.5rem)] leading-[1.1] font-medium tracking-[-0.02em]">
+                Seis disciplinas,{" "}
+                <span className="text-[var(--nwk-text-inverse-muted)]">
+                  uma mesma exigência de precisão.
+                </span>
+              </p>
+              <a
+                href="#contato"
+                className="group mt-8 inline-flex items-center gap-2 text-sm font-medium text-[var(--nwk-neutral-cream)]"
+              >
+                <span className="border-b border-current pb-0.5">Descreva sua necessidade</span>
+                <ArrowUpRight
+                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  aria-hidden="true"
+                />
+              </a>
+            </div>
+
+            <ul className="lg:col-span-8">
               {solutionsContent.items.map((item) => {
-                const isSelected = item.id === activeItem.id;
+                const isOpen = item.id === openId;
                 return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    aria-pressed={isSelected}
-                    onClick={() => setSelectedId(item.id)}
-                    className={cn(
-                      "cursor-pointer rounded-full px-4 py-2 text-xs font-medium transition-all duration-150 active:scale-[0.97]",
-                      isSelected
-                        ? "bg-[var(--nwk-neutral-cream)] text-[var(--nwk-carbon-black)]"
-                        : "border border-[var(--nwk-border-dark-subtle)] bg-white/[0.03] text-[var(--nwk-silver-gray)] hover:border-[var(--nwk-border-dark-strong)] hover:text-[var(--nwk-pure-white)]",
-                    )}
-                  >
-                    {item.title}
-                  </button>
+                  <li key={item.id} className="border-t border-[var(--nwk-border-dark-subtle)] last:border-b">
+                    <h3>
+                      <button
+                        type="button"
+                        aria-expanded={isOpen}
+                        aria-controls={`disc-${item.id}`}
+                        onClick={() => setOpenId(isOpen ? "" : item.id)}
+                        className="group flex w-full cursor-pointer items-center justify-between gap-6 py-5 text-left sm:py-6"
+                      >
+                        <span
+                          className={cn(
+                            "font-display text-[clamp(1.5rem,3.2vw,3rem)] leading-[1.05] font-medium tracking-[-0.03em] transition-colors duration-300",
+                            isOpen
+                              ? "text-[var(--nwk-neutral-cream)]"
+                              : "text-[var(--nwk-text-inverse-muted)] group-hover:text-[var(--nwk-soft-white)]",
+                          )}
+                        >
+                          {item.title}
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className={cn(
+                            "relative h-7 w-7 shrink-0 rounded-full border border-[var(--nwk-border-dark-strong)] transition-transform duration-300 before:absolute before:top-1/2 before:left-1/2 before:h-px before:w-3 before:-translate-x-1/2 before:bg-current after:absolute after:top-1/2 after:left-1/2 after:h-3 after:w-px after:-translate-x-1/2 after:-translate-y-1/2 after:bg-current after:transition-opacity",
+                            isOpen && "rotate-90 after:opacity-0",
+                          )}
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      id={`disc-${item.id}`}
+                      aria-label={item.title}
+                      role="region"
+                      className={cn(
+                        "grid transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+                        isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                      )}
+                      inert={!isOpen}
+                    >
+                      <div className="min-h-0 overflow-hidden">
+                        <dl className="grid gap-6 pb-8 sm:grid-cols-3 sm:gap-8">
+                          <div>
+                            <dt className="text-xs font-medium text-[var(--nwk-text-inverse-muted)]">
+                              O que construímos
+                            </dt>
+                            <dd className="mt-2 text-sm leading-relaxed text-[var(--nwk-silver-gray)]">
+                              {item.whatWeBuild}
+                            </dd>
+                          </div>
+                          <div>
+                            <dt className="text-xs font-medium text-[var(--nwk-text-inverse-muted)]">
+                              Que problema resolve
+                            </dt>
+                            <dd className="mt-2 text-sm leading-relaxed text-[var(--nwk-silver-gray)]">
+                              {item.problemSolved}
+                            </dd>
+                          </div>
+                          <div>
+                            <dt className="text-xs font-medium text-[var(--nwk-text-inverse-muted)]">
+                              Entregas típicas
+                            </dt>
+                            <dd className="mt-2">
+                              <ul className="space-y-1.5 text-sm text-[var(--nwk-soft-white)]">
+                                {item.deliverables.map((d) => (
+                                  <li key={d}>{d}</li>
+                                ))}
+                              </ul>
+                            </dd>
+                          </div>
+                        </dl>
+                      </div>
+                    </div>
+                  </li>
                 );
               })}
-            </div>
-          </div>
-
-          <div className="mt-8 rounded-3xl border border-[var(--nwk-border-dark-subtle)] bg-[var(--nwk-carbon-black)] p-6 sm:p-8">
-            <AnimatePresence initial={false} mode="wait">
-              <motion.div
-                key={activeItem.id}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-                className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-center"
-              >
-                <div className="lg:col-span-4">
-                  <h4 className="font-display text-xl font-medium text-[var(--nwk-soft-white)]">
-                    {activeItem.title}
-                  </h4>
-                  <p className="mt-2 text-sm text-[var(--nwk-silver-gray)]">
-                    {activeItem.whatWeBuild}
-                  </p>
-                </div>
-
-                <div className="lg:col-span-5">
-                  <p className="text-xs font-medium text-[var(--nwk-neutral-cream)]">
-                    Qual problema resolvemos
-                  </p>
-                  <p className="mt-1.5 text-sm leading-relaxed text-[var(--nwk-silver-gray)]">
-                    {activeItem.problemSolved}
-                  </p>
-                </div>
-
-                <div className="lg:col-span-3">
-                  <p className="text-xs font-medium text-[var(--nwk-neutral-cream)]">
-                    Entregas típicas
-                  </p>
-                  <ul className="mt-2 flex flex-wrap gap-2">
-                    {activeItem.deliverables.map((del) => (
-                      <li
-                        key={del}
-                        className="rounded-full border border-[var(--nwk-border-dark-subtle)] bg-white/[0.05] px-3 py-1 text-xs text-[var(--nwk-soft-white)]"
-                      >
-                        {del}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+            </ul>
           </div>
         </Container>
       </div>

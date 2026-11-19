@@ -35,7 +35,7 @@ test.describe("NWK Institutional Website", () => {
     }
   });
 
-  test("supports solutions matrix, product stage tabs, methodology flow, and contact form", async ({
+  test("supports solutions matrix, projects stage, methodology steps, and contact form", async ({
     page,
   }) => {
     await page.goto("/");
@@ -43,22 +43,23 @@ test.describe("NWK Institutional Website", () => {
     // Solutions asymmetric matrix
     const mobileBtn = page.getByRole("button", { name: /Aplicativos mobile/i });
     await mobileBtn.click();
-    await expect(mobileBtn).toHaveAttribute("aria-pressed", "true");
+    await expect(mobileBtn).toHaveAttribute("aria-expanded", "true");
 
-    // Product Stage tab switching + keyboard navigation
-    const doceTab = page.getByRole("tab", { name: "Doce Certo" });
-    await doceTab.click();
-    await expect(doceTab).toHaveAttribute("aria-selected", "true");
-    await doceTab.press("ArrowRight");
-    await expect(page.getByRole("tab", { name: "NWKBossAI" })).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
+    // Projects stage: every project is present as its own article
+    for (const name of ["FJU Artes Marciais", "Doce Certo", "NWKBossAI", "ZURI", "NWKstudio"]) {
+      await expect(page.getByRole("article", { name, includeHidden: true })).toHaveCount(1);
+    }
 
-    // Methodology continuous flow
-    const stepDesign = page.getByRole("button", { name: /Design e arquitetura/i });
-    await stepDesign.click();
-    await expect(stepDesign).toHaveAttribute("aria-pressed", "true");
+    // Methodology: all six steps are exposed as an ordered list
+    const steps = page.getByRole("list", { name: "Etapas do processo" }).getByRole("heading", {
+      level: 3,
+    });
+    await expect(steps).toHaveCount(6);
+    await expect(steps.filter({ hasText: "Design e arquitetura" })).toHaveCount(1);
+
+    // Contact form: solution type is a radio group
+    await page.getByRole("radio", { name: "Aplicativo" }).check({ force: true });
+    await expect(page.getByRole("radio", { name: "Aplicativo" })).toBeChecked();
 
     // Contact form validation
     await page.getByLabel(/Nome/i).fill("Ana Beatriz");
@@ -103,5 +104,39 @@ test.describe("NWK Institutional Website", () => {
       });
       expect(hasOverflow, `Overflow detected on ${route}`).toBe(false);
     }
+  });
+
+  test("project details open (GSAP Flip), stay accessible and close with Escape", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const open = page.getByRole("button", { name: "Ver detalhes" }).first();
+    await open.scrollIntoViewIfNeeded();
+    await open.click();
+
+    const close = page.getByRole("button", { name: "Fechar detalhes" });
+    await expect(close).toBeVisible();
+    await expect(page.getByText("Módulos conceituais").first()).toBeVisible();
+
+    const scan = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+      .analyze();
+    expect(scan.violations).toEqual([]);
+
+    await close.focus();
+    await page.keyboard.press("Escape");
+    await expect(close).toHaveCount(0);
+  });
+
+  test("reduced motion disables pinning/kinetic layout and stays accessible", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+    await page.waitForTimeout(500);
+    expect(await page.locator(".pin-spacer").count()).toBe(0);
+    expect(await page.locator("#sobre [data-kinetic=on], #sobre[data-kinetic=on]").count()).toBe(0);
+    const scan = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+      .analyze();
+    expect(scan.violations).toEqual([]);
   });
 });

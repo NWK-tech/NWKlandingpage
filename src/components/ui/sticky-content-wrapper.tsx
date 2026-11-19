@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useSyncExternalStore } from "react";
 import { ArrowRight } from "lucide-react";
 import { solutionsStickyChapters } from "@/content/home";
 import { ensureGsapRegistered, gsap, prefersReducedMotion, ScrollTrigger } from "@/lib/gsap";
@@ -138,6 +138,19 @@ function StickyContentComp({
   const stickyRef = useRef<HTMLDivElement | null>(null);
   const contentRefsRef = useRef<(HTMLDivElement | null)[]>([]);
   const imageRefsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const videoRefsRef = useRef<(HTMLVideoElement | null)[]>([]);
+  // Vídeo só em ambiente que permite: sem reduced-motion e sem economia de dados.
+  const hasVideo = items.some((item) => item.video);
+  const videoEnabled = useSyncExternalStore(
+    () => () => undefined,
+    () => {
+      const saveData =
+        (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData ===
+        true;
+      return hasVideo && !prefersReducedMotion() && !saveData;
+    },
+    () => false,
+  );
 
   useLayoutEffect(() => {
     ensureGsapRegistered();
@@ -190,6 +203,21 @@ function StickyContentComp({
           start: "top top",
           end: "bottom bottom",
           scrub: 1,
+          onUpdate: (self) => {
+            const active = Math.round(self.progress * Math.max(1, items.length - 1));
+            videoRefsRef.current.forEach((video, index) => {
+              if (!video) return;
+              if (index === active && self.isActive) {
+                if (video.preload !== "auto") video.preload = "auto";
+                void video.play().catch(() => undefined);
+              } else {
+                video.pause();
+              }
+            });
+          },
+          onToggle: (self) => {
+            if (!self.isActive) videoRefsRef.current.forEach((video) => video?.pause());
+          },
           snap:
             enableSnap && !reducedMotion && items.length > 1
               ? {
@@ -407,7 +435,30 @@ function StickyContentComp({
                 width={item.width || 1080}
                 height={item.height || 1080}
                 loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
+                fetchPriority={index === 0 ? "auto" : "low"}
               />
+              {videoEnabled && item.video ? (
+                <video
+                  ref={(element) => {
+                    videoRefsRef.current[index] = element;
+                  }}
+                  className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700"
+                  muted
+                  loop
+                  playsInline
+                  preload="none"
+                  poster={item.video.poster ?? item.image}
+                  aria-hidden="true"
+                  tabIndex={-1}
+                  onPlaying={(event) => {
+                    event.currentTarget.style.opacity = "1";
+                  }}
+                >
+                  {item.video.webm ? <source src={item.video.webm} type="video/webm" /> : null}
+                  <source src={item.video.src} type="video/mp4" />
+                </video>
+              ) : null}
             </div>
           ))}
         </div>

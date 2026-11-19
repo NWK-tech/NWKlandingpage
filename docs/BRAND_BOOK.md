@@ -44,8 +44,9 @@
 
 ## 5. Direção Artística
 
-- **Escultura Arquitetônica (Hero)**: Composição aberta em três planos interconectados (*Núcleo & Sistemas* → *Engenharia & Integração* → *Produto & Experiência*), ancorada abaixo do título monumental centralizado.
-- **Apresentação de Projetos (Product Stage)**: Palco único interativo monocromático com iluminação zenital sutil e alternância acessível por abas entre mockups de desktop, smartphone e composição híbrida.
+- **Hero (aprovada pelo proprietário, intocável)**: fundo claro com canvas de meio-tom animando duas mãos, título tonal e CTA preto com *glow* colorido (exceção cromática aprovada). Ver `docs/CREATIVE_DIRECTION.md`.
+- **Apresentação de Projetos**: palco de produto em grande escala; cada projeto preserva sua personalidade cromática. Interfaces conceituais são sempre rotuladas como tal.
+- **Cores complementares**: permitidas quando justificadas; preto e creme permanecem a identidade principal.
 
 ## 6. Motion Identity (Proposta Criativa)
 

@@ -12,6 +12,16 @@ export interface StickyContentLink {
   rel?: string;
 }
 
+/** Clipe curto (≤ 4 s) que substitui a imagem estática quando disponível. */
+export interface StickyContentVideo {
+  /** MP4 (H.264) — obrigatório. */
+  src: string;
+  /** WebM (VP9/AV1) opcional, servido primeiro. */
+  webm?: string;
+  /** Poster; por padrão usa a imagem da solução. */
+  poster?: string;
+}
+
 export interface StickyContentItem {
   heading?: string;
   paragraphs?: string[];
@@ -23,6 +33,7 @@ export interface StickyContentItem {
   linkText?: string;
   cta?: string;
   image?: string;
+  video?: StickyContentVideo;
   alt?: string;
   imageAlt?: string;
   width?: number;
