@@ -1,9 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Button } from "@/components/ui/Button";
 import { Accordion } from "@/components/ui/Accordion";
+import { RollActionLink } from "@/components/ui/RollActionLink";
 import StickyContentWrapper from "@/components/ui/sticky-content-wrapper";
 import { ContactSection } from "@/features/home/sections/ContactSection";
+import { EngineeringShelfSection } from "@/features/home/sections/EngineeringShelfSection";
 
 describe("Button", () => {
   it("renders as anchor when href is provided", () => {
@@ -78,5 +80,46 @@ describe("StickyContentWrapper", () => {
     expect(
       screen.getByRole("link", { name: /Iniciar projeto de software/i }),
     ).toHaveAttribute("href", "#contato");
+  });
+});
+
+describe("RollActionLink", () => {
+  it("renders as anchor when href is provided and triggers button onClick otherwise", () => {
+    const onClick = vi.fn();
+    render(
+      <>
+        <RollActionLink label="Explorar frente" href="#contato" tone="dark" />
+        <RollActionLink label="Abrir painel" onClick={onClick} tone="light" />
+      </>,
+    );
+
+    expect(screen.getByRole("link", { name: "Explorar frente" })).toHaveAttribute("href", "#contato");
+    fireEvent.click(screen.getByRole("button", { name: "Abrir painel" }));
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("EngineeringShelfSection", () => {
+  it("renders blueprints, filters by category, switches active dossier, and toggles dialog", () => {
+    render(<EngineeringShelfSection />);
+
+    expect(screen.getByRole("list", { name: /Estante de cadernos de engenharia/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: "Sistemas & SaaS" })).toBeInTheDocument();
+
+    // Select a different dossier by clicking its spine
+    fireEvent.click(screen.getAllByRole("button", { name: /03\s*Mobile/i })[0]!);
+    expect(screen.getByRole("heading", { level: 3, name: "Apps Mobile Offline-First" })).toBeInTheDocument();
+
+    // Filter by IA & Dados
+    fireEvent.click(screen.getByRole("button", { name: "IA & Dados" }));
+    expect(screen.getByRole("heading", { level: 3, name: "IA & Agentes Locais" })).toBeInTheDocument();
+
+    // Open inspector dialog and close with Escape
+    fireEvent.click(screen.getByRole("button", { name: "Inspecionar caderno" }));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByText("Decisões de Engenharia")).toBeInTheDocument();
+
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });

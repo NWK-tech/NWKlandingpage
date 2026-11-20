@@ -4,8 +4,8 @@ import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/features/home/sections/HeroSection";
 import { ManifestoAboutSection } from "@/features/home/sections/ManifestoAboutSection";
 import { SolutionsSection } from "@/features/home/sections/SolutionsSection";
-import { ProjectsSection } from "@/features/home/sections/ProjectsSection";
 import { MethodologySection } from "@/features/home/sections/MethodologySection";
+import { EngineeringShelfSection } from "@/features/home/sections/EngineeringShelfSection";
 import { ContactSection } from "@/features/home/sections/ContactSection";
 
 const organizationSchema = {
@@ -28,9 +28,9 @@ export default function HomePage() {
       <main id="main-content" tabIndex={-1} className="outline-none">
         <HeroSection />
         <SolutionsSection />
-        <ProjectsSection />
         <ManifestoAboutSection />
         <MethodologySection />
+        <EngineeringShelfSection />
         <ContactSection />
       </main>
       <Footer />

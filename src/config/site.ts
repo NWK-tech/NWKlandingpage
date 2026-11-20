@@ -11,8 +11,8 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   navigation: [
     { label: "Soluções", href: "#solucoes" },
-    { label: "Projetos", href: "#projetos" },
     { label: "Empresa", href: "#sobre" },
+    { label: "Processo", href: "#metodologia" },
     { label: "Contato", href: "#contato" },
   ] satisfies NavItem[],
   ctaPrimary: {

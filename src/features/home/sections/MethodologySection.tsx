@@ -137,7 +137,7 @@ export function MethodologySection() {
               >
                 <div data-inner className="mx-auto grid w-full max-w-[90rem] items-center gap-10 px-5 py-14 sm:px-8 md:min-h-[78svh] md:grid-cols-12 md:gap-14 md:py-16 lg:px-12">
                   <div className={cn("md:col-span-5", flip && "md:order-2 md:col-start-8")}>
-                    <h3 className="font-display overflow-hidden pb-2 text-[clamp(2rem,4.4vw,4.4rem)] leading-[1] font-medium tracking-[-0.04em]">
+                    <h3 className="font-display overflow-hidden pb-2 text-[clamp(1.75rem,3.2vw,3.35rem)] leading-[1.04] font-medium tracking-[-0.035em]">
                       <span data-rise className="block">
                         {step.title}
                       </span>

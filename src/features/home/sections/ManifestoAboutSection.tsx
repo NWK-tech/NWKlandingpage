@@ -129,8 +129,8 @@ export function ManifestoAboutSection() {
                   aria-hidden="true"
                   className={
                     chunk.big
-                      ? "block text-[clamp(2.6rem,11.5vw,14rem)] group-data-[kinetic=on]:absolute group-data-[kinetic=on]:inset-0 group-data-[kinetic=on]:flex group-data-[kinetic=on]:items-center"
-                      : "block text-[clamp(2.1rem,7vw,8rem)] group-data-[kinetic=on]:absolute group-data-[kinetic=on]:inset-0 group-data-[kinetic=on]:flex group-data-[kinetic=on]:items-center"
+                      ? "block text-[clamp(2.25rem,8.8vw,9.5rem)] group-data-[kinetic=on]:absolute group-data-[kinetic=on]:inset-0 group-data-[kinetic=on]:flex group-data-[kinetic=on]:items-center"
+                      : "block text-[clamp(1.75rem,5.5vw,6.5rem)] group-data-[kinetic=on]:absolute group-data-[kinetic=on]:inset-0 group-data-[kinetic=on]:flex group-data-[kinetic=on]:items-center"
                   }
                 >
                   <span className="relative block">

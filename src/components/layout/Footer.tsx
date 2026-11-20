@@ -1,15 +1,61 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useSyncExternalStore } from "react";
 import { useGSAP } from "@gsap/react";
-import { ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { solutionsContent } from "@/content/home";
 import { ensureGsapRegistered, gsap, prefersReducedMotion } from "@/lib/gsap";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
 import { Divider } from "@/components/ui/Divider";
+import { RollActionLink } from "@/components/ui/RollActionLink";
 import { Magnetic } from "@/components/motion/Magnetic";
+
+const brtFormatter = new Intl.DateTimeFormat("pt-BR", {
+  timeZone: "America/Sao_Paulo",
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+let cachedBrtTime = "";
+
+function subscribeClock(onStoreChange: () => void) {
+  cachedBrtTime = brtFormatter.format(new Date());
+  const id = window.setInterval(() => {
+    const next = brtFormatter.format(new Date());
+    if (next !== cachedBrtTime) {
+      cachedBrtTime = next;
+      onStoreChange();
+    }
+  }, 15_000);
+  return () => window.clearInterval(id);
+}
+
+function getClientClockSnapshot(): string {
+  if (!cachedBrtTime) {
+    cachedBrtTime = brtFormatter.format(new Date());
+  }
+  return cachedBrtTime;
+}
+
+function getServerClockSnapshot(): string {
+  return "--:--";
+}
+
+function StudioClock() {
+  const time = useSyncExternalStore(
+    subscribeClock,
+    getClientClockSnapshot,
+    getServerClockSnapshot,
+  );
+
+  return (
+    <span className="inline-flex items-center gap-2 font-mono text-[11px] tracking-wider text-[var(--nwk-text-inverse-muted)] tabular-nums">
+      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[var(--nwk-neutral-cream)]" />
+      <span>{time} BRT · Brasil</span>
+    </span>
+  );
+}
 
 export function Footer() {
   const footerRef = useRef<HTMLElement>(null);
@@ -60,13 +106,7 @@ export function Footer() {
             </p>
             <div className="mt-8">
               <Magnetic>
-                <a
-                  href="#contato"
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--nwk-border-dark-strong)] bg-white/[0.04] px-5 py-2.5 text-sm font-medium text-[var(--nwk-text-inverse)] transition-colors duration-200 hover:bg-[var(--nwk-neutral-cream)] hover:text-[var(--nwk-carbon-black)]"
-                >
-                  <span>Iniciar uma conversa</span>
-                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-                </a>
+                <RollActionLink label="Iniciar uma conversa" href="#contato" tone="light" />
               </Magnetic>
             </div>
           </div>
@@ -114,7 +154,10 @@ export function Footer() {
 
         <div className="flex flex-col items-start justify-between gap-4 text-xs text-[var(--nwk-text-inverse-muted)] sm:flex-row sm:items-center">
           <p>© {new Date().getFullYear()} NWK. Tecnologia e Engenharia Digital.</p>
-          <p>Canais institucionais e documentos legais serão publicados na fase de lançamento.</p>
+          <div className="flex flex-wrap items-center gap-4">
+            <StudioClock />
+            <p>Canais institucionais e documentos legais serão publicados na fase de lançamento.</p>
+          </div>
         </div>
 
         {/* Monumental parallax brand closure */}

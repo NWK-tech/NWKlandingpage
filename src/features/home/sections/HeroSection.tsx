@@ -19,33 +19,6 @@ const SRC_RECTS = {
 const LEVELS = [0, 0.26, 0.52, 0.78, 1] as const;
 const LOOP = 20;
 
-const DISCIPLINE_MARKS = [
-  {
-    name: "Sistemas",
-    path: "M3 15c0-7 5-12 14-12-1 9-6 14-13 13l-1 2-2-1z",
-  },
-  {
-    name: "IA Aplicada",
-    path: "M10 1l8 4.5v9L10 19l-8-4.5v-9zM10 6l-4 2.3v4.4L10 15l4-2.3V8.3z",
-  },
-  {
-    name: "Apps Mobile",
-    path: "M1 5q4.5-3 9 0t9 0v3q-4.5 3-9 0t-9 0zm0 7q4.5-3 9 0t9 0v3q-4.5 3-9 0t-9 0z",
-  },
-  {
-    name: "Plataformas Web",
-    path: "M10 1a9 9 0 110 18 9 9 0 010-18zm0 3a6 6 0 100 12 6 6 0 000-12zm0 3a3 3 0 110 6 3 3 0 010-6z",
-  },
-  {
-    name: "Automações",
-    path: "M1 17L7 6l3 5 3-7 6 13z",
-  },
-  {
-    name: "Design Systems",
-    path: "M10 1l9 4-9 4-9-4zm-9 8l9 4 9-4v3l-9 4-9-4zm0 5l9 4 9-4v2l-9 4-9-4z",
-  },
-] as const;
-
 function hash(a: number, b: number): number {
   const s = Math.sin(a * 127.1 + b * 311.7) * 43758.5453;
   return s - Math.floor(s);
@@ -392,29 +365,6 @@ export function HeroSection() {
             {heroContent.primaryCta.label}
           </Link>
         </div>
-      </div>
-
-      {/* Bottom Capabilities Row (with the exact 6 geometric 17x17 icons) */}
-      <div
-        aria-label="Frentes de atuação da NWK"
-        className="absolute inset-x-0 bottom-[clamp(28px,6vh,64px)] z-10 flex flex-wrap items-center justify-center gap-x-[24px] gap-y-[14px] px-4 text-[13px] font-medium tracking-[-0.01em] text-[#595959] md:gap-[clamp(26px,4.6vw,66px)] md:text-[clamp(14px,1.18vw,17px)]"
-      >
-        {DISCIPLINE_MARKS.map((item) => (
-          <a
-            key={item.name}
-            href="#solucoes"
-            className="inline-flex items-center gap-[7px] transition-colors hover:text-[#111111]"
-          >
-            <svg
-              viewBox="0 0 20 20"
-              className="h-[17px] w-[17px] shrink-0 fill-current"
-              aria-hidden="true"
-            >
-              <path d={item.path} />
-            </svg>
-            <span>{item.name}</span>
-          </a>
-        ))}
       </div>
     </section>
   );

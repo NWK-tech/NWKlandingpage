@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/cn";
@@ -10,7 +10,7 @@ import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
 import type { NavItem } from "@/types/content";
 
-const DARK_SECTION_IDS = new Set(["solucoes", "sobre"]);
+const DARK_SECTION_IDS = new Set(["solucoes", "metodologia", "engenharia"]);
 
 const LEFT_NAV_ITEMS: readonly NavItem[] = siteConfig.navigation.slice(0, 2);
 const RIGHT_NAV_ITEMS: readonly NavItem[] = siteConfig.navigation.slice(2, 4);
@@ -20,7 +20,9 @@ export function Header() {
   const [overDark, setOverDark] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
+  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => {
@@ -89,12 +91,16 @@ export function Header() {
 
   const renderNavLink = (item: NavItem) => {
     const isActive = activeSection === item.href;
+    const isHovered = hoveredHref === item.href;
     return (
       <a
         key={item.href}
         href={item.href}
+        onMouseEnter={() => setHoveredHref(item.href)}
+        onFocus={() => setHoveredHref(item.href)}
+        onBlur={() => setHoveredHref(null)}
         className={cn(
-          "relative py-1.5 text-[15px] font-medium tracking-[-0.01em] transition-colors duration-200",
+          "relative rounded-full px-3.5 py-1.5 text-[15px] font-medium tracking-[-0.01em] transition-colors duration-200",
           isLightHeaderText
             ? isActive
               ? "text-[var(--nwk-soft-white)]"
@@ -104,12 +110,27 @@ export function Header() {
               : "text-[var(--nwk-text-secondary)] hover:text-[var(--nwk-text-primary)]",
         )}
       >
+        {isHovered ? (
+          <motion.span
+            layoutId="nav-hover-pill"
+            aria-hidden="true"
+            className={cn(
+              "pointer-events-none absolute inset-0 -z-10 rounded-full",
+              isLightHeaderText ? "bg-white/10" : "bg-[#131315]/[0.06]",
+            )}
+            transition={
+              shouldReduceMotion
+                ? { duration: 0 }
+                : { type: "spring", stiffness: 420, damping: 32 }
+            }
+          />
+        ) : null}
         {item.label}
         {isActive ? (
           <motion.span
             layoutId="nav-active-indicator"
             className={cn(
-              "absolute inset-x-0 -bottom-0.5 h-[1.5px]",
+              "absolute inset-x-3.5 -bottom-0.5 h-[1.5px]",
               isLightHeaderText
                 ? "bg-[var(--nwk-neutral-cream)]"
                 : "bg-[var(--nwk-carbon-black)]",
@@ -139,9 +160,10 @@ export function Header() {
         {/* Desktop Symmetric Split Navigation with Centered Logo */}
         <nav
           aria-label="Navegação principal"
+          onMouseLeave={() => setHoveredHref(null)}
           className="mx-auto hidden h-20 max-w-5xl grid-cols-[1fr_auto_1fr] items-center md:grid lg:h-22"
         >
-          <div className="flex items-center justify-end gap-12 pr-10 lg:gap-20 lg:pr-16">
+          <div className="flex items-center justify-end gap-8 pr-8 lg:gap-14 lg:pr-14">
             {LEFT_NAV_ITEMS.map(renderNavLink)}
           </div>
 
@@ -157,7 +179,7 @@ export function Header() {
             />
           </a>
 
-          <div className="flex items-center justify-start gap-12 pl-10 lg:gap-20 lg:pl-16">
+          <div className="flex items-center justify-start gap-8 pl-8 lg:gap-14 lg:pl-14">
             {RIGHT_NAV_ITEMS.map(renderNavLink)}
           </div>
         </nav>

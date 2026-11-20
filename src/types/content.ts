@@ -83,3 +83,28 @@ export type SolutionTypeOption =
   | "Inteligência artificial"
   | "Automação"
   | "Outros";
+
+export type EngineeringBlueprintCategory = "Engenharia" | "IA & Dados" | "Experiência";
+
+export type BlueprintArtPattern =
+  | "architecture-grid"
+  | "signal-waves"
+  | "mobile-layers"
+  | "web-columns"
+  | "pipeline-nodes"
+  | "token-matrix";
+
+export interface EngineeringBlueprintItem {
+  id: string;
+  code: string;
+  title: string;
+  shortTitle: string;
+  category: EngineeringBlueprintCategory;
+  surface: "carbon" | "graphite" | "cream" | "soft-white";
+  pattern: BlueprintArtPattern;
+  thesis: string;
+  summary: string;
+  standards: string[];
+  deliverables: string[];
+  badge: string;
+}

@@ -1,4 +1,5 @@
 import type {
+  EngineeringBlueprintItem,
   MethodologyStep,
   ProjectItem,
   SolutionItem,
@@ -96,7 +97,7 @@ export const solutionsStickyChapters: StickyContentItem[] = [
       "Arquitetura offline-first resiliente",
       "Interfaces móveis orientadas a gestos",
     ],
-    link: { href: "#projetos", text: "Ver projetos e conceitos" },
+    link: { href: "#contato", text: "Explorar soluções mobile" },
     image: "/images/propostas/service-mobile-handheld.jpg",
     video: chapterVideo("mobile"),
     imageAlt:
@@ -332,3 +333,161 @@ export const contactContent = {
   pendingIntegrationNotice:
     "Canal de envio externo ainda em configuração. Ao submeter, os dados são validados localmente sem transmissão a servidor externo.",
 } as const;
+
+export const engineeringShelfContent: {
+  eyebrow: string;
+  statement: string;
+  categories: readonly ("Todos" | EngineeringBlueprintItem["category"])[];
+  items: EngineeringBlueprintItem[];
+} = {
+  eyebrow: "Cadernos de Engenharia",
+  statement:
+    "Engenharia não é promessa visual. É arquitetura pensada para durar, código tipado sem atalhos e interfaces que respondem com precisão em cada interação.",
+  categories: ["Todos", "Engenharia", "IA & Dados", "Experiência"],
+  items: [
+    {
+      id: "caderno-sistemas",
+      code: "01",
+      title: "Sistemas & SaaS",
+      shortTitle: "Sistemas",
+      category: "Engenharia",
+      surface: "carbon",
+      pattern: "architecture-grid",
+      badge: "Padrão arquitetural NWK",
+      thesis:
+        "Substituímos planilhas fragmentadas e softwares legados por arquiteturas modulares multi-tenant construídas para a operação real.",
+      summary:
+        "Cada sistema nasce com fronteiras claras entre domínio, persistência e interface para crescer sem acumular débito técnico.",
+      standards: [
+        "Tipagem estrita end-to-end",
+        "Domínio isolado de infraestrutura",
+        "APIs versionadas e rastreáveis",
+      ],
+      deliverables: [
+        "Modelagem de domínio e banco",
+        "Painéis administrativos rápidos",
+        "Contratos de API documentados",
+      ],
+    },
+    {
+      id: "caderno-ia",
+      code: "02",
+      title: "IA & Agentes Locais",
+      shortTitle: "IA Aplicada",
+      category: "IA & Dados",
+      surface: "graphite",
+      pattern: "signal-waves",
+      badge: "Padrão arquitetural NWK",
+      thesis:
+        "Agentes operacionais conectados via API ou executados localmente com privacidade, previsibilidade e controle determinístico.",
+      summary:
+        "Projetamos fluxos assistidos por inteligência artificial onde cada decisão crítica possui validação estrutural e trilha de auditoria.",
+      standards: [
+        "Guardrails e validação de saída",
+        "Privacidade e rastreabilidade",
+        "Orquestração com fallback determinístico",
+      ],
+      deliverables: [
+        "Agentes de triagem e análise",
+        "Pipelines de contexto operacional",
+        "Monitoramento de latência e custo",
+      ],
+    },
+    {
+      id: "caderno-mobile",
+      code: "03",
+      title: "Apps Mobile Offline-First",
+      shortTitle: "Mobile",
+      category: "Experiência",
+      surface: "cream",
+      pattern: "mobile-layers",
+      badge: "Padrão arquitetural NWK",
+      thesis:
+        "Aplicativos iOS e Android resilientes para equipes em campo e rotinas contínuas, mesmo sob conectividade instável.",
+      summary:
+        "Priorizamos resposta tátil imediata, gestos naturais e sincronização segura de estado local para evitar perda de dados em operação.",
+      standards: [
+        "Persistência local e sincronização",
+        "Gestos naturais e feedback tátil",
+        "Consumo otimizado de rede e bateria",
+      ],
+      deliverables: [
+        "App multiplataforma iOS e Android",
+        "Fila de sincronização offline",
+        "Publicação assistida em lojas",
+      ],
+    },
+    {
+      id: "caderno-web",
+      code: "04",
+      title: "Plataformas Web & SEO",
+      shortTitle: "Web",
+      category: "Experiência",
+      surface: "soft-white",
+      pattern: "web-columns",
+      badge: "Padrão arquitetural NWK",
+      thesis:
+        "Aplicações web e websites institucionais com renderização veloz, acessibilidade real e arquitetura limpa desde o primeiro byte.",
+      summary:
+        "Estruturamos páginas com semântica rigorosa, zero poluição visual e métricas de carregamento pensadas para dispositivos reais.",
+      standards: [
+        "Server Components por padrão",
+        "Conformidade WCAG 2.2 AA",
+        "Core Web Vitals e SEO técnico",
+      ],
+      deliverables: [
+        "Websites institucionais autorais",
+        "Aplicações web responsivas",
+        "Estrutura semântica e metadados",
+      ],
+    },
+    {
+      id: "caderno-automacoes",
+      code: "05",
+      title: "Automações & Integrações",
+      shortTitle: "Automações",
+      category: "IA & Dados",
+      surface: "carbon",
+      pattern: "pipeline-nodes",
+      badge: "Padrão arquitetural NWK",
+      thesis:
+        "Conectamos ERPs, CRMs, webhooks e rotinas internas para eliminar retrabalho manual com pipelines tolerantes a falhas.",
+      summary:
+        "Toda integração é desenhada para resistir a instabilidades externas com reprocessamento seguro e visibilidade clara de eventos.",
+      standards: [
+        "Idempotência e reprocessamento seguro",
+        "Observabilidade por evento",
+        "Desacoplamento por filas e contratos",
+      ],
+      deliverables: [
+        "Conectores de APIs e webhooks",
+        "Rotinas assíncronas auditáveis",
+        "Alertas operacionais de falha",
+      ],
+    },
+    {
+      id: "caderno-design-systems",
+      code: "06",
+      title: "Design Systems Escaláveis",
+      shortTitle: "Design Systems",
+      category: "Engenharia",
+      surface: "graphite",
+      pattern: "token-matrix",
+      badge: "Padrão arquitetural NWK",
+      thesis:
+        "Bibliotecas de componentes documentadas, tokens semânticos e consistência visual preparada para múltiplos produtos evoluírem juntos.",
+      summary:
+        "Unimos design e engenharia em um vocabulário único de tokens, estados interativos completos e validação automatizada.",
+      standards: [
+        "Tokens semânticos em CSS Variables",
+        "Estados completos de teclado e foco",
+        "Documentação viva em Storybook",
+      ],
+      deliverables: [
+        "Arquitetura de tokens e tipografia",
+        "Biblioteca de componentes reutilizáveis",
+        "Auditoria contínua de acessibilidade",
+      ],
+    },
+  ],
+};
